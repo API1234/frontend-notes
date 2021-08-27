@@ -1,2 +1,2 @@
-# Frontend-notes
+# notes
 shpi's frontend notes
