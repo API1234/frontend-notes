@@ -24,6 +24,7 @@ HTTP请求头提供了关于请求，响应或者其他的发送实体的信息�
 | [Accept-Encoding](#accept-系列字段解析) | 浏览器申明自己接收的内容压缩编码类型 |
 | [Accept-Language](#accept-系列字段解析) | 浏览器申明自己接收的语言 |
 | [Authorization](#authorization-认证) | 当客户端接收到来自服务器的 `WWW-Authenticate` 响应时，用该头部来回应自己的身份验证信息给服务器 |
+| [Cookie](Cookie.md) | 浏览器每次请求都会带上 对应 `Domain` 和 `Path` 下的 `Cookie` |
 | If-Match | 表示这是一个条件请求。在请求方法为 `GET` 和 `HEAD` 的情况下，服务器仅在请求的资源满足此首部列出的 `ETag` 值时才会返回资源。而对于 `PUT` 或其他非安全方法来说，只有在满足条件的情况下才可以将资源上传。 |
 | [If-None-Match](浏览器缓存.md#2协商缓存) | 配合 `ETag` 实现协商缓存 |
 | [If-Modified-Since](浏览器缓存.md#2协商缓存) | 配合 `Last-Modified` 实现协商缓存 |
@@ -43,6 +44,7 @@ HTTP请求头提供了关于请求，响应或者其他的发送实体的信息�
 | :-: | :-: |
 | Age | 包含消息对象在缓存代理中存贮的时长，以秒为单位 |
 | Server | 服务器表明自己是什么软件及版本等信息 |
+| [Set-Cookie](Cookie.md) | 服务端 通过该字段向浏览器写入 `Cookie` |
 | Accept-Ranges | 服务器表明自己是否接受获取其某个实体的一部分（比如文件的一部分）的请求。`bytes`：表示接受，`none`：表示不接受 |
 | Proxy-Authenticate | 指定了获取 proxy server （代理服务器）上的资源访问权限而采用的身份验证方式。代理服务器对请求进行验证，以便它进一步传递请求。`Proxy-Authenticate` 首部需要与 `407` `Proxy Authentication` 响应一起发送。 |
 | [Access-Control-Allow-Origin](跨域.md) | CORS 响应时 `Origin` 字段的值，或者是一个 `*`，表示接受任意域名的请求 |
