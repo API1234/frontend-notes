@@ -64,19 +64,23 @@ ToPrimitive(input[, PreferredType])
 2 * ['5'] //  10， ['5'] 通过 ToPrimitive 变为'5', 然后再变成数字 5
 ```
 ### 2.2 加法的特殊性
-JavaScript 里 `+` 还可以用来拼接字符串。谨记以下3条：
+JavaScript 里 `+` 还可以用来拼接字符串。谨记以下 4 条：
 
 - 当一侧为 String 类型，被识别为字符串拼接，并会优先将另一侧转换为字符串类型
-- 当一侧为 Number 类型，另一侧为 原始类型，则将原始类型转换为 Number 类型
-- 当一侧为 Number 类型，另一侧为 引用类型，将 引用类型 和 Number 类型转换成 字符串 后拼接
+- 当一侧为 Number 类型，另一侧为 **原始类型**，则将 原始类型 转换为 Number 类型
+- 当一侧为 引用类型，将两边数据转换成 字符串 后拼接
+- 特殊情况，两边为 `undefined` `null`，转为 Number 类型
 
-以上 3 点，优先级从高到低
+以上 4 点，优先级从高到低
 
 ```JavaScript
 123 + '123' // 123123   （规则1）
-123 + null  // 123    （规则2）
+123 + null // 123    （规则2）
 123 + true // 124    （规则2）
-123 + {}  // 123[object Object]    （规则3）
+123 + {} // 123[object Object]    （规则3）
+[123] + undefined // 123undefined    （规则3）
+null + null // 0    （规则4）
+null + undefined // NaN    （规则4）
 ```
 ## 三、逻辑语句中的类型转换
 当我们使用 `if` `while` `for` 语句时，我们期望表达式是一个 `Boolean`，所以一定伴随着隐式类型转换
