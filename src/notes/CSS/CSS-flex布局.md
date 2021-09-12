@@ -70,6 +70,7 @@
 <img src="../../images/flex-wrap_wrap.jpg" width="500" />
 - wrap-reverse：换行，第一行在下方  
 <img src="../../images/flex-wrap_wrap-%20reverse.jpg" width="500" />
+
 ### 3.3 flex-flow
 `flex-flow` 属性是 `flex-direction` 属性和 `flex-wrap` 属性的简写形式，默认值为 `row nowrap`
 ```css
@@ -77,6 +78,7 @@
   flex-flow: <flex-direction> <flex-wrap>;
 }
 ```
+
 ### 3.4 justify-content属性
 `justify-content` 属性定义了项目在 `主轴` 上的对齐方式
 ```css
