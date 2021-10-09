@@ -66,14 +66,14 @@ func.bind(thisArg[, arg1[, arg2[, ...]]])
 当目标函数被调用时，被预置入绑定函数的参数列表中的参数
 
 ### 返回值
-返回一个原函数的拷贝，并拥有指定的 `this` 值和 `初始参数`
+返回一个原函数的拷贝，并拥有指定的 `this` 值和 `初始参数`，没有 `prototype` 属性
 
 ### bind 实现
 #### 不考虑 new
 ```JavaScript
 Function.prototype.bind = function(contenxt, ...args) {
   const bound = (...newArgs) => {
-    return this.apply(contenxt, newArgs.concat(args))
+    return this.apply(contenxt, args.concat(newArgs))
   }
   return bound
 }
@@ -81,64 +81,16 @@ Function.prototype.bind = function(contenxt, ...args) {
 #### [考虑 new](https://github.com/yygmind/blog/issues/23)
 ```JavaScript
 Function.prototype.bind = function (context, ...args) {
-  if (typeof this !== 'function') {
-    throw new Error('Function.prototype.bind - what is trying to be bound is not callable')
-  }
+  if (typeof this !== 'function') throw new Error('error')
 
   const self = this
-  const fNOP = function () {}
-  fNOP.prototype = this.prototype
 
-  // 不能使用箭头函数，箭头函数 不能作为构造函数
-  const fBound = function (...newArgs) {
-    return self.apply(this instanceof fNOP ? this : context, args.concat(newArgs))
-  }
-
-  /** 
-   * 原型式继承
-   * 
-   * fBound.prototype = this.prototype有一个缺点
-   * 直接修改 fBound.prototype 的时候，也会直接修改 this.
-   */
-  fBound.prototype = new fNOP()
-  return fBound
-}
-```
-#### 输出值？
-```JavaScript
-const obj1 = {
-  val: 'obj1',
-  func: function(name) {
-    this.name = name
-    return {
-      name,
-      val: this.val
+  return function Fn(...newArgs) {
+    // 因为返回了一个函数，我们可以 new Fn()，所以需要判断
+    if (this instanceof Fn) {
+      return new self(...args, ...newArgs)
     }
+    return self.apply(context, [...args, ...newArgs])
   }
 }
-obj1.func.prototype.val = 'prototype'
-
-var val = 'windows'
-const obj2 = {
-  val: 'obj2'
-}
-
-const bindObj = obj1.func.binds(obj2)
-let a = new bindObj('test-a')
-console.log(a)
-let b = bindObj('test-b')
-console.log(b)
-
-const bindNull = obj1.func.binds()
-let aa = new bindNull('test-aa')
-console.log(aa)
-let bb = bindNull('test-bb')
-console.log(bb)
-
-/**
- * {name: 'test-a', val: 'prototype'}
- * {name: 'test-b', val: 'obj2'}
- * {name: 'test-aa', val: 'prototype'}
- * {name: 'test-bb', val: 'windows'}
- */
 ```
