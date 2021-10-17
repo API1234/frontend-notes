@@ -10,7 +10,7 @@
 
 ## [执行上下文与作用域相关](./JavaScript-执行上下文与作用域.md#4-相关题目)
 
-## [原型链](../JavaScript/JavaScript-原型链.md)
+## [原型链](../JavaScript/JavaScript-原型链.md#相关题目)
 ## 块级作用域
 ### 问题一：改变下边代码输出为 0 1 2 3 4
 ```JavaScript
