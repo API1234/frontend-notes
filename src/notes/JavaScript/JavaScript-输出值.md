@@ -6,6 +6,7 @@
 - [other](#other)
   - [问题一：连续赋值](#问题一连续赋值)
   - [问题二：对象的 key](#问题二对象的-key)
+  - [问题三：函数入参（引用类型）](#问题三函数入参引用类型)
 ## [Promise 相关](./JavaScript-Promise.md#2-promise-相关题目) 
 
 ## [执行上下文与作用域相关](./JavaScript-执行上下文与作用域.md#4-相关题目)
@@ -108,4 +109,22 @@ a[b]='b'
 a[c]='c'
 console.log(a[b])   // 'c'
 // a = { [object Object]: "c" }
+```
+
+### 问题三：函数入参（引用类型）
+```JavaScript
+let a = [1,2,3]
+let b = {}
+function fn(a,b){
+    a = []
+    b.b = 2
+    b = {a:1}
+}
+fn(a,b)
+console.log(a) // [1, 2, 3]
+console.log(b) // {b: 2}
+
+// 对于 JS 的引用类型来说，
+// 我们的复制实际上是复制它在堆内存中的地址，
+// 而不是这个引用对象本身
 ```

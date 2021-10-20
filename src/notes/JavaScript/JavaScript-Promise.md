@@ -16,6 +16,7 @@
     - [2.2 题目二](#22-题目二)
     - [2.3 题目三](#23-题目三)
     - [2.4 题目四](#24-题目四)
+    - [2.5 题目五](#25-题目五)
   - [3. Promise 相关实现](#3-promise-相关实现)
     - [3.1 Promise 实现](#31-promise-实现)
     - [3.2 Promisify 实现](#32-promisify-实现)
@@ -271,6 +272,27 @@ Promise.resolve(1)
  * Promise.resolve(1)会返回一个 Promise 对象并且会将 1 当做 then 的参数
  * then 或 catch 的参数期望是函数，传入非函数则会发生值穿透
  * 所以最后会输出：1
+ */
+```
+
+### 2.5 题目五
+写出下面函数的执行结果：
+
+```JavaScript
+Promise.reject(7).then(
+  () => console.log(1),
+  undefined
+).then(
+  () => console.log(2),
+  err => console.log(err, 3)
+)
+
+/**
+ * 1. Promise.reject 返回一个 rejected 状态的 Promise
+ * then 函数的 onReject 为 undefined，则自动转为 reason => { throw reason }
+ * 故第一个 then 报错，返回一个 rejected 状态的 Promise，抛出 reason = 7
+ * 运行 err => console.log(err, 3)
+ * 打印 7 3
  */
 ```
 
