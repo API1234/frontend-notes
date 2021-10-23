@@ -5,6 +5,7 @@
 - [String.prototype.replace()](#stringprototypereplace)
   - [camelize(str)](#camelizestr)
   - [objReplace(str, obj)](#objreplacestr-obj)
+- [deepClone(obj)](#deepcloneobj)
 ## treeToArray
 ```JavaScript
 function treeToArray(tree, key = 'sub') {
@@ -156,4 +157,63 @@ let b = {
   age: '24'
 }
 console.log(objReplace(a,b))
+```
+
+## deepClone(obj)
+```JavaScript
+function deepClone(obj) {
+  const map = new WeakMap()
+
+  const _deep = (obj) => {
+    const existobj = map.get(obj)
+    if (existobj) return existobj
+
+    let copy
+    // Handle the simple types, and null or undefined
+    if (typeof obj !== 'object' || obj === null) return obj
+
+    // Handle Date
+    if (obj instanceof Date) {
+      copy = new Date()
+      copy.setTime(obj.getTime())
+      map.set(obj, copy)
+      return copy
+    }
+
+    // Handle Array
+    if (obj instanceof Array) {
+      copy = []
+      map.set(obj, copy)
+      for (let i = 0, len = obj.length; i < len; i++) {
+        copy[i] = _deep(obj[i])
+      }
+      return copy
+    }
+
+    // Handle Function
+    if (obj instanceof Function) {
+      copy = function() {
+        return obj.apply(this, arguments)
+      }
+      map.set(obj, copy)
+      return copy
+    }
+
+    // Handle Object
+    if (obj instanceof Object) {
+      copy = {}
+      map.set(obj, copy)
+      for (let prop in obj) {
+        if (obj.hasOwnProperty(prop)) {
+          copy[prop] = _deep(obj[prop])
+        }
+      }
+      return copy
+    }
+
+    throw new Error("Unable to copy obj as type isn't supported " + obj.constructor.name)
+  }
+
+  return _deep(obj)
+}
 ```
